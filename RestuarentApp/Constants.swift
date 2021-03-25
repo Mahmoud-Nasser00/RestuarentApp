@@ -14,10 +14,14 @@ class Constants {
     
     class StoryboardId {
         static let detailVC = "DetailVC"
+        static let CartVC = "CartVC"
+        static let favouriteVC = "FavouriteVC"
     }
     
     class CellId {
         static let orderDetailCell = "OrderDetailCell"
+        static let favouriteCell = "FavouriteCell"
+        static let cartCell = "CartCell"
     }
     
 }

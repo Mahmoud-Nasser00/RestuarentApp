@@ -16,6 +16,18 @@ class HomeTableViewCell: UITableViewCell {
             favouriteView.layer.masksToBounds = true
         }
     }
+    
+    @IBOutlet weak var heartBtn: UIButton!{
+        didSet{
+            heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+            heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
+    }
+    @IBOutlet weak var ItemName: UILabel!
+    @IBOutlet weak var itemCategory: UILabel!
+    @IBOutlet weak var itemPrice: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -28,4 +40,8 @@ class HomeTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func heartBtnTapped(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+    }
+    
 }

@@ -1,30 +1,16 @@
 //
-//  ViewController.swift
+//  FavouriteViewController.swift
 //  RestuarentApp
 //
-//  Created by Mahmoud Nasser on 23/03/2021.
+//  Created by Mahmoud Nasser on 25/03/2021.
 //
 
 import UIKit
-import PinterestSegment
 
-class HomeViewController: UIViewController {
-
-    //MARK:- IBOutlets
-    @IBOutlet weak var searchTF:UITextField!{
-        didSet {
-            searchTF.delegate = self
-        }
-    }
-    @IBOutlet weak var pintrestSegment : PinterestSegment!
-    @IBOutlet weak var homeTV:UITableView!{
-        didSet{
-            homeTV.delegate = self
-            homeTV.dataSource = self
-        }
-    }
+class FavouriteViewController: UIViewController {
     
-    //TabBar
+    //MARK:- IBOutlets
+    @IBOutlet weak var favItemsTV:UITableView!
     @IBOutlet weak var tabBarView:UIView!{
         didSet{
             tabBarView.addingShadowAndCornerRadius()
@@ -49,43 +35,18 @@ class HomeViewController: UIViewController {
         }
     }
     
-    //MARK:- Variables
-    var  style = PinterestSegmentStyle()
-    
     //MARK:- App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(mainViewTapped))
-//        self.view.addGestureRecognizer(tapGesture)
-        
-        homeTV.separatorColor = .clear
-        
-        searchTF.leftViewMode = .always
-        let usernameImageView = UIImageView()
-        usernameImageView.frame = CGRect(x: 10, y: 0, width: 10, height: 10)
-        
-        usernameImageView.image = UIImage(named: "search")
-        usernameImageView.tintColor = .gray
-        searchTF.leftView = usernameImageView
-        
-        // Do any additional setup after loading the view.
-        pintrestSegment.titles = ["burger","pizza", "pasta", "salad"]
-        style.indicatorColor = #colorLiteral(red: 1, green: 0.5937251379, blue: 0.107067319, alpha: 0.1801954863)
-        style.titleMargin = 0
-        style.titlePendingHorizontal = 20
-        style.titlePendingVertical = 20
-        style.titleFont = UIFont.boldSystemFont(ofSize: 14)
-        style.normalTitleColor = UIColor.black
-        style.selectedTitleColor = UIColor.black
-        
-        pintrestSegment.style = style
+        favItemsTV.separatorColor = .clear
+        favItemsTV.delegate = self
+        favItemsTV.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateTabBarBtnSelectionState(homeBtn)
-        updateTabBarBtnTintColor(homeBtn)
+        updateTabBarBtnSelectionState(favBtn)
+        updateTabBarBtnTintColor(favBtn)
     }
     
     //MARK:- UIFunctions
@@ -124,26 +85,7 @@ class HomeViewController: UIViewController {
         default : break
         }
     }
-    
-    //Not used
-    private func updateTabBarBtnUserInteractionEnabled(_ selectedButton: UIButton){
-        switch selectedButton {
-        case homeBtn :
-            homeBtn.isUserInteractionEnabled = false
-            favBtn.isUserInteractionEnabled = true
-            profileBtn.isUserInteractionEnabled = true
-        case favBtn :
-            homeBtn.isUserInteractionEnabled = true
-            favBtn.isUserInteractionEnabled = false
-            profileBtn.isUserInteractionEnabled = true
-        case profileBtn :
-            homeBtn.isUserInteractionEnabled = true
-            favBtn.isUserInteractionEnabled = true
-            profileBtn.isUserInteractionEnabled = false
-        default : break
-        }
-    }
-    
+
     //MARK:- Navigation Functions
     private func navigationForTappedButton(_ tappedButton:UIButton) {
         if !tappedButton.isSelected {
@@ -151,17 +93,16 @@ class HomeViewController: UIViewController {
             case homeBtn:
                 navigationController?.popToRootViewController(animated: true)
             case favBtn:
-                if let favVC = storyboard?.instantiateViewController(withIdentifier: Constants.StoryboardId.favouriteVC) as? FavouriteViewController {
-                    navigationController?.pushViewController(favVC, animated: true)
-                }
-                
+                break
             case profileBtn:break
             default:break
             }
         }
     }
-    
     //MARK:- IBActions
+    @IBAction func backBtnTapped(_ sender: UIButton) {
+        navigationController?.popToRootViewController(animated: true)
+    }
     
     @IBAction func cartBtnTapped(_ sender: UIButton) {
         if let cartVC = storyboard?.instantiateViewController(withIdentifier: Constants.StoryboardId.CartVC) as? CartViewController {
@@ -193,50 +134,53 @@ class HomeViewController: UIViewController {
         }
     }
     
-    @objc func mainViewTapped(){
-        searchTF.resignFirstResponder()
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
     }
-    
+    */
+
 }
 
-    //MARK:- TV Extensions
-
-extension HomeViewController : UITableViewDelegate {
-    
+    //MARK:- TV Delegate Ext
+extension FavouriteViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 260
+        return 120
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let sb = UIStoryboard(name: Constants.StoryboardName.main, bundle: nil)
-        if let detailVC = sb.instantiateViewController(identifier: Constants.StoryboardId.detailVC) as? OrderDetailViewController {
-            navigationController?.pushViewController(detailVC, animated: true)
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: "Delete") {(action, view, completionHandler) in
+            print("swiped")
+            
+            completionHandler(true)
         }
+        deleteAction.backgroundColor = .red
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
 }
-
-extension HomeViewController : UITableViewDataSource {
+//MARK:- TV DataSource Ext
+extension FavouriteViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCell",for: indexPath) as? HomeTableViewCell{
+        if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellId.favouriteCell, for: indexPath) as? FavouriteTableViewCell {
             return cell
         }
+        
         return UITableViewCell()
     }
     
-    
-}
-
-extension HomeViewController : UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.resignFirstResponder()
-    }
 }
