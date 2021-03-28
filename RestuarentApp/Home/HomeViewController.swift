@@ -293,7 +293,7 @@ extension HomeViewController : UITableViewDataSource {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCell",for: indexPath) as? HomeTableViewCell{
             let itemForRow = itemsToPresent[indexPath.row]
             cell.heartBtn.tag = indexPath.row
-            cell.configureCell(item:itemForRow)
+            cell.configureCell(item:itemForRow, rowIndex:indexPath.row)
             cell.cellDelegate = self
             return cell
         }

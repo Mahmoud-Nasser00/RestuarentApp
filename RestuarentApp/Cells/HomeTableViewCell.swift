@@ -27,7 +27,8 @@ class HomeTableViewCell: UITableViewCell {
             heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
         }
     }
-    @IBOutlet weak var ItemName: UILabel!
+    @IBOutlet weak var ItemImage:UIImageView!
+    @IBOutlet weak var itemName: UILabel!
     @IBOutlet weak var itemCategory: UILabel!
     @IBOutlet weak var itemPrice: UILabel!
     
@@ -45,10 +46,12 @@ class HomeTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureCell(item:Item){
-        ItemName.text = item.itemName
+    func configureCell(item:Item, rowIndex:Int){
+        itemName.text = item.itemName
         itemCategory.text = item.itemCategory
-        itemPrice.text = String(item.price)
+        itemPrice.text = "\(String(item.price))$"
+        cardView.image = rowIndex % 2 != 0 ? UIImage(named: "Rectangle 2") : UIImage(named: "Rectangle 1")
+        ItemImage.image = UIImage(named: item.imageName ?? "")
     }
 
     @IBAction func heartBtnTapped(_ sender: UIButton) {
