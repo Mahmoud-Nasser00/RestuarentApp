@@ -24,13 +24,29 @@ class CartViewController: UIViewController {
     //MARK:- variables
     var cartItems = [Item]()
     
+    private var totalPriceForAllItems :Float = 0.0
+    private var shippingAmount:Float = 10.0
+    private var totalPriceWithShipping:Float = 0.0
+    
     //MARK:- App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         itemsTV.separatorColor = .clear
+        getTotalPriceForAllItems(items: cartItems)
         
-        // Do any additional setup after loading the view.
+        orderAmountLabel.text = String(totalPriceForAllItems)
+        totalAmountLabel.text = String(totalPriceForAllItems + shippingAmount)
+    }
+    
+    //MARK:- Helper Functions
+    
+    private func getTotalPriceForAllItems(items:[Item]){
+        var totalPrice:Float = 0.0
+        for item in items {
+            totalPrice += item.totalPrice
+        }
+        totalPriceForAllItems = totalPrice
     }
     
     //MARK:- IBActions
@@ -62,7 +78,9 @@ extension CartViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellId.cartCell) as? CartTableViewCell {
+            let itemForRow = cartItems[indexPath.row]
             cell.cartActionDelegate = self
+            cell.configureCell(item: itemForRow)
             return cell
         }
         return UITableViewCell()

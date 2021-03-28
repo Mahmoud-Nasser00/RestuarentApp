@@ -82,8 +82,7 @@ class OrderDetailViewController: UIViewController {
     
     @IBAction func cartBtnTapped(_ sender: UIButton) {
         if let cartVC = storyboard?.instantiateViewController(withIdentifier: Constants.StoryboardId.CartVC) as? CartViewController {
-            orderedItem.count = count
-            cartVC.cartItems = [orderedItem]
+           
             navigationController?.pushViewController(cartVC, animated: true)
         }
     }
@@ -114,6 +113,8 @@ class OrderDetailViewController: UIViewController {
             }
         } else {
             if let cartVC = storyboard?.instantiateViewController(withIdentifier: Constants.StoryboardId.CartVC) as? CartViewController {
+                orderedItem.count = count
+                cartVC.cartItems = [orderedItem]
                 navigationController?.pushViewController(cartVC, animated: true)
             }
         }

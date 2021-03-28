@@ -37,6 +37,12 @@ class CartTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    func configureCell(item: Item){
+        itemName.text = item.itemName
+        itemCategory.text = item.itemCategory
+        itemPrice.text = String(item.price)
+        quantityNum.text = String(item.count!)
+    }
    
     @IBAction func plusBtnTapped(_ sender: UIButton) {
         let qty = Int(quantityNum.text!)!
@@ -51,7 +57,6 @@ class CartTableViewCell: UITableViewCell {
         if qty == 1 {
             
         }
-        
     }
     
 }

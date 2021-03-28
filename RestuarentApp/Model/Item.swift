@@ -14,5 +14,9 @@ struct Item : Equatable{
     var price : Float
     var isFavourite: Bool
     var count:Int? = 0
+    
+    var totalPrice : Float {
+        return price * Float(count!)
+    }
 }
 
