@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol favouriteVCDelegate {
+    func heartBtnTapped(items:[Item])
+}
+
 class FavouriteViewController: UIViewController {
     
     //MARK:- IBOutlets
@@ -38,6 +42,11 @@ class FavouriteViewController: UIViewController {
     //MARK:- Variables
     
     var favouriteItems = [Item]()
+    
+    private let dataAccess = DataAccess()
+    private lazy var viewModel = HomeViewModel(dataAccess: dataAccess)
+    
+    var favVCDelegate : favouriteVCDelegate?
     
     //MARK:- App Life Cycle
     override func viewDidLoad() {
@@ -182,6 +191,8 @@ extension FavouriteViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellId.favouriteCell, for: indexPath) as? FavouriteTableViewCell {
             let itemForRow = favouriteItems[indexPath.row]
+            cell.favCellDelegate = self
+            cell.heartBtn.tag = indexPath.row
             cell.configureCell(item: itemForRow)
             return cell
         }
@@ -189,4 +200,15 @@ extension FavouriteViewController : UITableViewDataSource {
         return UITableViewCell()
     }
     
+}
+
+extension FavouriteViewController : FavouriteCellDelegate {
+    func heartBtnTapped(index: Int) {
+        var item = favouriteItems[index]
+        viewModel.favouriteItems = favouriteItems
+        viewModel.addDeleteFavouriteItem(item: &item)
+        favouriteItems = viewModel.favouriteItems
+        favVCDelegate?.heartBtnTapped(items: favouriteItems)
+        favItemsTV.reloadData()
+    }
 }

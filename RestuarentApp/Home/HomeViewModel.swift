@@ -29,15 +29,12 @@ public class HomeViewModel {
     }
     
     func addDeleteFavouriteItem( item:inout Item){
-        
+
         let isItemExists = favouriteItems.contains {
             $0.itemName == item.itemName
         }
         
         if isItemExists {
-            let index = favouriteItems.first {
-                $0.itemName == $0.itemName
-            }
             item.isFavourite = true
             favouriteItems.remove(object: item)
         } else {

@@ -13,5 +13,6 @@ struct Item : Equatable{
     var itemCategory:String
     var price : Float
     var isFavourite: Bool
+    var count:Int? = 0
 }
 

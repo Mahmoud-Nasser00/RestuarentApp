@@ -70,6 +70,10 @@ class HomeViewController: UIViewController {
         
         handleSegmentChange()
         
+        if let favVC = storyboard?.instantiateViewController(withIdentifier: Constants.StoryboardId.favouriteVC) as?FavouriteViewController {
+            favVC.favVCDelegate = self
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -251,8 +255,9 @@ extension HomeViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let sb = UIStoryboard(name: Constants.StoryboardName.main, bundle: nil)
-        if let detailVC = sb.instantiateViewController(identifier: Constants.StoryboardId.detailVC) as? OrderDetailViewController {
-            navigationController?.pushViewController(detailVC, animated: true)
+        if let orderDetailsVC = sb.instantiateViewController(identifier: Constants.StoryboardId.detailVC) as? OrderDetailViewController {
+            orderDetailsVC.orderedItem = itemsToPresent[indexPath.row]
+            navigationController?.pushViewController(orderDetailsVC, animated: true)
         }
     }
     
@@ -292,5 +297,11 @@ extension HomeViewController : homeTVCellDelegate {
         var favouriteItem = itemsToPresent[index]
         favouriteItem.isFavourite = isFavourite
         viewModel.addDeleteFavouriteItem(item: &favouriteItem)
+    }
+}
+
+extension HomeViewController : favouriteVCDelegate {
+    func heartBtnTapped(items: [Item]) {
+        
     }
 }

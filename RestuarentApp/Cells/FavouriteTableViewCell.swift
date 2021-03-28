@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol FavouriteCellDelegate {
+    func heartBtnTapped(index:Int)
+}
+
 class FavouriteTableViewCell: UITableViewCell {
 
     @IBOutlet weak var itemImage: UIImageView!{
@@ -29,6 +33,7 @@ class FavouriteTableViewCell: UITableViewCell {
     @IBOutlet weak var categoryName: UILabel!
     @IBOutlet weak var itemPrice: UILabel!
     
+    var favCellDelegate : FavouriteCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -49,9 +54,7 @@ class FavouriteTableViewCell: UITableViewCell {
    
     
     @IBAction func heartBtnTapped(_ sender: UIButton) {
-        
+        favCellDelegate?.heartBtnTapped(index: sender.tag)
     }
-    
-    
 
 }

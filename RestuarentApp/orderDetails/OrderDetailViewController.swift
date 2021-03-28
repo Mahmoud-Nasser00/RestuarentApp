@@ -47,6 +47,8 @@ class OrderDetailViewController: UIViewController {
     
     //MARK:- Variables
     private var  style = PinterestSegmentStyle()
+    var orderedItem :Item!
+    var count:Int!
     
     //MARK:- App Life Cycle
     override func viewDidLoad() {
@@ -63,8 +65,15 @@ class OrderDetailViewController: UIViewController {
         
         segmentControl.style = style
         
+        populateData(item: orderedItem)
     }
 
+    //MARK:- Functions
+    
+    private func populateData(item:Item){
+        itemName.text = item.itemName
+        categoryName.text = item.itemCategory
+    }
     
     //MARK:- IBActions
     @IBAction func backBtnTapped(_ sender: UIButton) {
@@ -73,6 +82,8 @@ class OrderDetailViewController: UIViewController {
     
     @IBAction func cartBtnTapped(_ sender: UIButton) {
         if let cartVC = storyboard?.instantiateViewController(withIdentifier: Constants.StoryboardId.CartVC) as? CartViewController {
+            orderedItem.count = count
+            cartVC.cartItems = [orderedItem]
             navigationController?.pushViewController(cartVC, animated: true)
         }
     }
@@ -81,12 +92,16 @@ class OrderDetailViewController: UIViewController {
         let qty = Int(orderQuantity.text!)!
         if qty > 0 {
             orderQuantity.text = String(qty - 1)
+            count = Int(orderQuantity.text!)!
         }
+        
     }
     
     @IBAction func plusBtnTapped(_ sender:UIButton){
         let qty = Int(orderQuantity.text!)!
         orderQuantity.text = String(qty + 1)
+        count = Int(orderQuantity.text!)!
+
     }
     
     @IBAction func addOrderBtnTapped(_ sender:UIButton){

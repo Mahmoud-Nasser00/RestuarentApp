@@ -21,6 +21,9 @@ class CartViewController: UIViewController {
         }
     }
     
+    //MARK:- variables
+    var cartItems = [Item]()
+    
     //MARK:- App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +57,7 @@ extension CartViewController : UITableViewDelegate {
     //MARK:- TV DataSource Ext
 extension CartViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return cartItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
