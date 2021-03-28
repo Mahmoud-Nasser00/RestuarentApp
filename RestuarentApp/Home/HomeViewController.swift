@@ -52,7 +52,7 @@ class HomeViewController: UIViewController {
     //MARK:- Variables
     private var style = PinterestSegmentStyle()
     private let dataAccess = DataAccess()
-    private lazy var viewModel = HomeViewModel(dataAccess: dataAccess)
+    private lazy var viewModel = ItemsViewModel(dataAccess: dataAccess)
     private var itemsToPresent = [Item]()
     
     //MARK:- App Life Cycle

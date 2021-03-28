@@ -44,7 +44,7 @@ class FavouriteViewController: UIViewController {
     var favouriteItems = [Item]()
     
     private let dataAccess = DataAccess()
-    private lazy var viewModel = HomeViewModel(dataAccess: dataAccess)
+    private lazy var viewModel = ItemsViewModel(dataAccess: dataAccess)
     
     var favVCDelegate : favouriteVCDelegate?
     
