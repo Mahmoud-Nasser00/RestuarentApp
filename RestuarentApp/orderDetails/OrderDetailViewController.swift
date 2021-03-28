@@ -48,10 +48,10 @@ class OrderDetailViewController: UIViewController {
     
     //MARK:- Variables
     private var  style = PinterestSegmentStyle()
-    var orderedItem :Item!
-    var count:Int!
-    
+    private var count:Int!
     private lazy var viewModel = OrderDetailViewModel(item: orderedItem)
+    
+    var orderedItem :Item!
     
     //MARK:- App Life Cycle
     override func viewDidLoad() {
@@ -62,7 +62,6 @@ class OrderDetailViewController: UIViewController {
         sizesCV.delegate = self
         sizesCV.dataSource = self
         sizesCV.backgroundColor = .clear
-        
         
         setSegmentControl()
         

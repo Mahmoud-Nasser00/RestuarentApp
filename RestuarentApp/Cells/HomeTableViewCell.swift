@@ -52,6 +52,7 @@ class HomeTableViewCell: UITableViewCell {
         itemPrice.text = "\(String(item.price))$"
         cardView.image = rowIndex % 2 != 0 ? UIImage(named: "Rectangle 2") : UIImage(named: "Rectangle 1")
         ItemImage.image = UIImage(named: item.imageName ?? "")
+        heartBtn.isSelected = item.isFavourite
     }
 
     @IBAction func heartBtnTapped(_ sender: UIButton) {

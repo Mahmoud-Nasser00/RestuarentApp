@@ -164,14 +164,14 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
-		6F583A7F260CA62400A3359E /* Model */ = {
+		6F583A7F260CA62400A3359E /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				6F583A77260B636D00A3359E /* Item.swift */,
 				6F12CCBE26113ACA00864061 /* OrderDetailItem.swift */,
 				6F583A74260B630800A3359E /* DataAccess.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		6F583A80260CA66400A3359E /* ViewsExtensions */ = {
@@ -203,7 +203,7 @@
 		6FF1B376260A29110095DE76 /* RestuarentApp */ = {
 			isa = PBXGroup;
 			children = (
-				6F583A7F260CA62400A3359E /* Model */,
+				6F583A7F260CA62400A3359E /* Models */,
 				6F12CCAC2610D3C500864061 /* ViewModel */,
 				6F583A7E260CA5F800A3359E /* Delegates */,
 				6F12CC8126108A7100864061 /* Storyboards */,

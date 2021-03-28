@@ -74,7 +74,6 @@ class HomeViewController: UIViewController {
         if let favVC = storyboard?.instantiateViewController(withIdentifier: Constants.StoryboardId.favouriteVC) as?FavouriteViewController {
             favVC.favVCDelegate = self
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

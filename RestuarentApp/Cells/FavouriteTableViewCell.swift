@@ -50,6 +50,7 @@ class FavouriteTableViewCell: UITableViewCell {
         categoryName.text = item.itemCategory
         itemPrice.text = String(item.price)
         heartBtn.isSelected = item.isFavourite
+        itemImage.image = UIImage(named: item.imageName!)
     }
    
     
