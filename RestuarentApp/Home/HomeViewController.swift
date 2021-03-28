@@ -50,17 +50,41 @@ class HomeViewController: UIViewController {
     }
     
     //MARK:- Variables
-    var  style = PinterestSegmentStyle()
+    private var style = PinterestSegmentStyle()
+    private let dataAccess = DataAccess()
+    private lazy var viewModel = HomeViewModel(dataAccess: dataAccess)
+    private var itemsToPresent = [Item]()
     
     //MARK:- App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(mainViewTapped))
-//        self.view.addGestureRecognizer(tapGesture)
-        
         homeTV.separatorColor = .clear
         
+        addTapGestureToMainView()
+        
+        addSearchImageToTF()
+        
+        configureSegmentControl()
+        
+        handleSegmentChange()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateTabBarBtnSelectionState(homeBtn)
+        updateTabBarBtnTintColor(homeBtn)
+    }
+    
+    //MARK:- UIFunctions
+    
+    private func addTapGestureToMainView(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(mainViewTapped))
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    private func addSearchImageToTF() {
         searchTF.leftViewMode = .always
         let usernameImageView = UIImageView()
         usernameImageView.frame = CGRect(x: 10, y: 0, width: 10, height: 10)
@@ -68,8 +92,9 @@ class HomeViewController: UIViewController {
         usernameImageView.image = UIImage(named: "search")
         usernameImageView.tintColor = .gray
         searchTF.leftView = usernameImageView
-        
-        // Do any additional setup after loading the view.
+    }
+    
+    private func configureSegmentControl(){
         pintrestSegment.titles = ["burger","pizza", "pasta", "salad"]
         style.indicatorColor = #colorLiteral(red: 1, green: 0.5937251379, blue: 0.107067319, alpha: 0.1801954863)
         style.titleMargin = 0
@@ -82,13 +107,6 @@ class HomeViewController: UIViewController {
         pintrestSegment.style = style
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        updateTabBarBtnSelectionState(homeBtn)
-        updateTabBarBtnTintColor(homeBtn)
-    }
-    
-    //MARK:- UIFunctions
     private func updateTabBarBtnSelectionState(_ tappedButton: UIButton){
         switch tappedButton {
         case homeBtn :
@@ -144,6 +162,26 @@ class HomeViewController: UIViewController {
         }
     }
     
+    //MARK:- Helper Functions
+    
+    func handleSegmentChange(){
+        pintrestSegment.valueChange = { [weak self] index in
+            guard let self = self else {return}
+            
+            switch index {
+            case 0 :
+                self.itemsToPresent = self.viewModel.getBurgerItems()
+            case 1 :
+                self.itemsToPresent = self.viewModel.getPizzaItems()
+            case 2 :
+                self.itemsToPresent = self.viewModel.getSaladItems()
+            default : break
+            }
+            
+            self.homeTV.reloadData()
+        }
+    }
+    
     //MARK:- Navigation Functions
     private func navigationForTappedButton(_ tappedButton:UIButton) {
         if !tappedButton.isSelected {
@@ -194,7 +232,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc func mainViewTapped(){
-        searchTF.resignFirstResponder()
+        view.endEditing(true)
     }
     
 }
@@ -208,6 +246,7 @@ extension HomeViewController : UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let sb = UIStoryboard(name: Constants.StoryboardName.main, bundle: nil)
         if let detailVC = sb.instantiateViewController(identifier: Constants.StoryboardId.detailVC) as? OrderDetailViewController {
             navigationController?.pushViewController(detailVC, animated: true)
@@ -218,11 +257,13 @@ extension HomeViewController : UITableViewDelegate {
 
 extension HomeViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return itemsToPresent.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCell",for: indexPath) as? HomeTableViewCell{
+            let itemForRow = itemsToPresent[indexPath.row]
+            cell.configureCell(item:itemForRow)
             return cell
         }
         return UITableViewCell()

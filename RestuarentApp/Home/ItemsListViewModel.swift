@@ -7,12 +7,25 @@
 
 import Foundation
 
+
 class ItemsListViewModel {
     
     private let dataAccess: DataAccess
     
     init(dataAccess:DataAccess) {
         self.dataAccess = dataAccess
+    }
+    
+    func getBurgerItems()->[Item]{
+        dataAccess.getAllBurgerItems()
+    }
+    
+    func getPizzaItems()->[Item]{
+        dataAccess.getAllBurgerItems()
+    }
+    
+    func getSaladItems()->[Item]{
+        dataAccess.getAllSaladItems()
     }
     
 }

@@ -20,6 +20,8 @@ class FavouriteTableViewCell: UITableViewCell {
         didSet {
             heartBtn.layer.cornerRadius = heartBtn.frame.height / 2
             heartBtn.layer.masksToBounds = true
+            heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+            heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
         }
     }
     
@@ -38,6 +40,12 @@ class FavouriteTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func configureCell(item:Item){
+        itemName.text = item.itemName
+        categoryName.text = item.itemCategory
+        itemPrice.text = String(item.price)
+        heartBtn.isSelected = item.isFavourite
+    }
    
     
     @IBAction func heartBtnTapped(_ sender: UIButton) {

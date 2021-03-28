@@ -12,5 +12,5 @@ struct Item {
     var itemName:String
     var itemCategory:String
     var price : Float
-    
+    var isFavourite: Bool
 }

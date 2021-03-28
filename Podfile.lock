@@ -1,0 +1,30 @@
+PODS:
+  - PinterestSegment (1.2.3)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.2)
+
+DEPENDENCIES:
+  - PinterestSegment
+  - RxCocoa (~> 5.1.0)
+  - RxSwift (~> 5.1.0)
+
+SPEC REPOS:
+  trunk:
+    - PinterestSegment
+    - RxCocoa
+    - RxRelay
+    - RxSwift
+
+SPEC CHECKSUMS:
+  PinterestSegment: 3dd673ffd9feb00dc7816bb1e503d70459e8eaa8
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 1e2e1f9570186967f617e49128ed26ccf1bafc8e
+
+PODFILE CHECKSUM: 25b649d92e11de733d22769a5434fe64c8669c66
+
+COCOAPODS: 1.10.0
