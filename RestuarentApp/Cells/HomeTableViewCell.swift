@@ -40,11 +40,11 @@ class HomeTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureCell(item:Item){
-        ItemName.text = item.itemName
-        itemCategory.text = item.itemCategory
-        itemPrice.text = String(item.price)
-    }
+//    func configureCell(item:Item){
+//        ItemName.text = item.itemName
+//        itemCategory.text = item.itemCategory
+//        itemPrice.text = String(item.price)
+//    }
 
     @IBAction func heartBtnTapped(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected

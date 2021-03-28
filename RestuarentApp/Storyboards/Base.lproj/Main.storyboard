@@ -191,6 +191,8 @@
                                             <outlet property="cardView" destination="ZUu-wd-672" id="KfE-lU-yNY"/>
                                             <outlet property="favouriteView" destination="pI0-ni-vUw" id="V88-Fc-QBi"/>
                                             <outlet property="heartBtn" destination="9pO-sh-Zxe" id="eA9-iV-97d"/>
+                                            <outlet property="itemCategory" destination="BBN-KW-MXV" id="mXA-J0-VYq"/>
+                                            <outlet property="itemPrice" destination="RId-vy-Yop" id="awe-VW-rjp"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
