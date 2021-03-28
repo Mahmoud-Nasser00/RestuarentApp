@@ -12,6 +12,8 @@ public class ItemsViewModel {
     
     var favouriteItems = [Item]()
     
+    var searchItems = [Item]()
+    
     init(dataAccess:DataAccess) {
         self.dataAccess = dataAccess
     }
@@ -43,6 +45,28 @@ public class ItemsViewModel {
         }
         
     }
+    
+    func Search(index:Int,searchedText:String){
+        switch index {
+        case 0:
+            let items = getBurgerItems()
+            searchItems = items.filter({ (item) -> Bool in
+                item.itemName.localizedCaseInsensitiveContains(searchedText)
+            })
+        case 1:
+            let items = getPizzaItems()
+            searchItems = items.filter({ (item) -> Bool in
+                item.itemName.localizedCaseInsensitiveContains(searchedText)
+            })
+        case 2:
+            let items = getSaladItems()
+            searchItems = items.filter({ (item) -> Bool in
+                item.itemName.localizedCaseInsensitiveContains(searchedText)
+            })
+        default: break
+        }
+    }
+    
 }
 
 

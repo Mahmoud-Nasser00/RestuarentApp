@@ -19,7 +19,7 @@ class Constants {
     }
     
     class CellId {
-        static let orderDetailCell = "OrderDetailCell"
+        static let orderDetailCVCell = "OrderDetailCVCell"
         static let favouriteCell = "FavouriteCell"
         static let cartCell = "CartCell"
     }

@@ -58,6 +58,7 @@ class HomeViewController: UIViewController {
     //MARK:- App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         homeTV.separatorColor = .clear
         
         addTapGestureToMainView()
@@ -238,6 +239,26 @@ class HomeViewController: UIViewController {
         }
     }
     
+    @IBAction func searchTFEditingChanged(_ sender: UITextField) {
+        if !sender.text!.isEmpty || sender.text != "" {
+            viewModel.Search(index: pintrestSegment.selectIndex, searchedText: sender.text ?? "")
+            itemsToPresent = viewModel.searchItems
+        } else {
+            switch pintrestSegment.selectIndex {
+            case 0:
+                itemsToPresent = viewModel.getBurgerItems()
+            case 1:
+                itemsToPresent = viewModel.getPizzaItems()
+            case 2:
+                itemsToPresent = viewModel.getSaladItems()
+            default:break
+            }
+        }
+        
+        homeTV.reloadData()
+    }
+
+    
     @objc func mainViewTapped(){
         view.endEditing(true)
     }
@@ -290,6 +311,7 @@ extension HomeViewController : UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.resignFirstResponder()
     }
+    
 }
 
 extension HomeViewController : homeTVCellDelegate {
