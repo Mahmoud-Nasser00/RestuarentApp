@@ -35,6 +35,10 @@ class FavouriteViewController: UIViewController {
         }
     }
     
+    //MARK:- Variables
+    
+    var favouriteItems = [Item]()
+    
     //MARK:- App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -172,11 +176,13 @@ extension FavouriteViewController : UITableViewDelegate {
 //MARK:- TV DataSource Ext
 extension FavouriteViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return favouriteItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellId.favouriteCell, for: indexPath) as? FavouriteTableViewCell {
+            let itemForRow = favouriteItems[indexPath.row]
+            cell.configureCell(item: itemForRow)
             return cell
         }
         

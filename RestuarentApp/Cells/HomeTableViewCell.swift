@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol homeTVCellDelegate {
+    func heartBtnTapped(index:Int,isFavourite:Bool)
+}
+
 class HomeTableViewCell: UITableViewCell {
 
     @IBOutlet weak var cardView:UIImageView!
@@ -27,6 +31,7 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var itemCategory: UILabel!
     @IBOutlet weak var itemPrice: UILabel!
     
+    var cellDelegate : homeTVCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -48,6 +53,7 @@ class HomeTableViewCell: UITableViewCell {
 
     @IBAction func heartBtnTapped(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
+        cellDelegate?.heartBtnTapped(index: sender.tag,isFavourite: sender.isSelected)
     }
     
 }

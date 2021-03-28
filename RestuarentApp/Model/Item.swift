@@ -7,10 +7,11 @@
 
 import Foundation
 
-struct Item {
+struct Item : Equatable{
     
     var itemName:String
     var itemCategory:String
     var price : Float
     var isFavourite: Bool
 }
+

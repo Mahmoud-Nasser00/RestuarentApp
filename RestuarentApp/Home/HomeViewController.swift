@@ -192,6 +192,7 @@ class HomeViewController: UIViewController {
                 navigationController?.popToRootViewController(animated: true)
             case favBtn:
                 if let favVC = storyboard?.instantiateViewController(withIdentifier: Constants.StoryboardId.favouriteVC) as? FavouriteViewController {
+                    favVC.favouriteItems = viewModel.favouriteItems
                     navigationController?.pushViewController(favVC, animated: true)
                 }
                 
@@ -265,7 +266,9 @@ extension HomeViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCell",for: indexPath) as? HomeTableViewCell{
             let itemForRow = itemsToPresent[indexPath.row]
+            cell.heartBtn.tag = indexPath.row
             cell.configureCell(item:itemForRow)
+            cell.cellDelegate = self
             return cell
         }
         return UITableViewCell()
@@ -281,5 +284,13 @@ extension HomeViewController : UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.resignFirstResponder()
+    }
+}
+
+extension HomeViewController : homeTVCellDelegate {
+    func heartBtnTapped(index: Int,isFavourite:Bool) {
+        var favouriteItem = itemsToPresent[index]
+        favouriteItem.isFavourite = isFavourite
+        viewModel.addDeleteFavouriteItem(item: &favouriteItem)
     }
 }
