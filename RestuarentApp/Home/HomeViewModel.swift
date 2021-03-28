@@ -19,7 +19,7 @@ public class HomeViewModel {
     }
     
     func getPizzaItems()->[Item]{
-        dataAccess.getAllBurgerItems()
+        dataAccess.getAllPizzaItems()
     }
     
     func getSaladItems()->[Item]{

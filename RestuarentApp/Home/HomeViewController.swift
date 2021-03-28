@@ -66,6 +66,8 @@ class HomeViewController: UIViewController {
         
         configureSegmentControl()
         
+        itemsToPresent = viewModel.getBurgerItems()
+        
         handleSegmentChange()
         
     }
@@ -167,7 +169,7 @@ class HomeViewController: UIViewController {
     func handleSegmentChange(){
         pintrestSegment.valueChange = { [weak self] index in
             guard let self = self else {return}
-            
+            print("index \(index)")
             switch index {
             case 0 :
                 self.itemsToPresent = self.viewModel.getBurgerItems()
