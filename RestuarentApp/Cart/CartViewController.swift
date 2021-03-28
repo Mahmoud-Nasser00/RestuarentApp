@@ -24,9 +24,17 @@ class CartViewController: UIViewController {
     //MARK:- variables
     var cartItems = [Item]()
     
-    private var totalPriceForAllItems :Float = 0.0
+    private var totalPriceForAllItems :Float = 0.0 {
+        didSet {
+            orderAmountLabel.text = String(totalPriceForAllItems)
+        }
+    }
     private var shippingAmount:Float = 10.0
-    private var totalPriceWithShipping:Float = 0.0
+    private var totalPriceWithShipping:Float = 0.0 {
+        didSet{
+            totalAmountLabel.text = String(totalPriceWithShipping)
+        }
+    }
     
     //MARK:- App Life Cycle
     override func viewDidLoad() {
@@ -47,6 +55,12 @@ class CartViewController: UIViewController {
             totalPrice += item.totalPrice
         }
         totalPriceForAllItems = totalPrice
+    }
+    
+    private func resetCart(){
+        orderAmountLabel.text = "0.00"
+        shippingFeesLabel.text = "0.00"
+        totalAmountLabel.text = "0.00"
     }
     
     //MARK:- IBActions
@@ -70,6 +84,7 @@ class CartViewController: UIViewController {
 extension CartViewController : UITableViewDelegate {
     
 }
+
     //MARK:- TV DataSource Ext
 extension CartViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -89,8 +104,15 @@ extension CartViewController : UITableViewDataSource {
 
     //MARK:- cartActions Delegate
 extension CartViewController : CartActionsDelegate {
-    func updateViews(quantity: Int, index: Int) {
-        
+    func deleteItem(item: Item) {
+        cartItems.remove(object: item)
+        resetCart()
+        itemsTV.reloadData()
+    }
+    
+    func updateItemsPrice(qty: Int, price: Float) {
+        totalPriceForAllItems = Float(qty) * price
+        totalPriceWithShipping = totalPriceForAllItems + shippingAmount
     }
     
     

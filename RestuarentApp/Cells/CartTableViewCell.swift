@@ -8,7 +8,8 @@
 import UIKit
 
 protocol CartActionsDelegate {
-    func updateViews(quantity: Int,index:Int)
+    func updateItemsPrice(qty:Int,price:Float)
+    func deleteItem(item:Item)
 }
 
 class CartTableViewCell: UITableViewCell {
@@ -26,6 +27,7 @@ class CartTableViewCell: UITableViewCell {
     @IBOutlet weak var quantityNum: UILabel!
     
     var cartActionDelegate:CartActionsDelegate?
+    var item :Item!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,6 +40,7 @@ class CartTableViewCell: UITableViewCell {
     }
 
     func configureCell(item: Item){
+        self.item = item
         itemName.text = item.itemName
         itemCategory.text = item.itemCategory
         itemPrice.text = String(item.price)
@@ -47,16 +50,19 @@ class CartTableViewCell: UITableViewCell {
     @IBAction func plusBtnTapped(_ sender: UIButton) {
         let qty = Int(quantityNum.text!)!
         quantityNum.text = String(qty + 1)
+        cartActionDelegate?.updateItemsPrice(qty: qty + 1, price: item.price)
     }
     
     @IBAction func minusBtnTapped(_ sender: UIButton) {
         let qty = Int(quantityNum.text!)!
         if qty > 0 {
             quantityNum.text = String(qty - 1)
+            cartActionDelegate?.updateItemsPrice(qty: qty - 1, price: item.price)
         }
         if qty == 1 {
-            
+            cartActionDelegate?.deleteItem(item: item)
         }
+      
     }
     
 }
