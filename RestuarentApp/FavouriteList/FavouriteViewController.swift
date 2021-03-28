@@ -171,8 +171,15 @@ extension FavouriteViewController : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive,
-                                              title: "Delete") {(action, view, completionHandler) in
+                                              title: "Delete") { [weak self](action, view, completionHandler) in
             print("swiped")
+            guard let self = self else {return}
+            var item = self.favouriteItems[indexPath.row]
+            self.viewModel.favouriteItems = self.favouriteItems
+            self.viewModel.addDeleteFavouriteItem(item: &item)
+            self.favouriteItems = self.viewModel.favouriteItems
+            self.favVCDelegate?.heartBtnTapped(items: self.favouriteItems)
+            self.favItemsTV.reloadData()
             
             completionHandler(true)
         }
