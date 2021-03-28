@@ -9,7 +9,7 @@ import UIKit
 
 protocol CartActionsDelegate {
     func updateItemsPrice(qty:Int,price:Float)
-    func deleteItem(item:Item)
+    func deleteItem(item:OrderDetailItem)
 }
 
 class CartTableViewCell: UITableViewCell {
@@ -27,7 +27,7 @@ class CartTableViewCell: UITableViewCell {
     @IBOutlet weak var quantityNum: UILabel!
     
     var cartActionDelegate:CartActionsDelegate?
-    var item :Item!
+    var item :OrderDetailItem!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,7 +39,7 @@ class CartTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func configureCell(item: Item){
+    func configureCell(item: OrderDetailItem){
         self.item = item
         itemName.text = item.itemName
         itemCategory.text = item.itemCategory

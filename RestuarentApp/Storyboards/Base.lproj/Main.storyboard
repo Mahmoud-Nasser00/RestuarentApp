@@ -762,6 +762,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="checkOutBtn" destination="jWp-S2-qa5" id="xXg-Qw-s3x"/>
                         <outlet property="itemsTV" destination="G3y-1Y-JfV" id="E67-8e-Zxx"/>
                         <outlet property="orderAmountLabel" destination="RJc-aV-Iqn" id="o7r-5r-zfl"/>
                         <outlet property="shippingFeesLabel" destination="Je4-9i-L1p" id="Fjq-lp-XEd"/>

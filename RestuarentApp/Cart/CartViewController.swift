@@ -20,9 +20,16 @@ class CartViewController: UIViewController {
             itemsTV.dataSource = self
         }
     }
+    @IBOutlet weak var checkOutBtn: UIButton!{
+        didSet {
+            checkOutBtn.layer.cornerRadius = 30
+            checkOutBtn.layer.masksToBounds = true
+        }
+    }
+    
     
     //MARK:- variables
-    var cartItems = [Item]()
+    var cartItems = [OrderDetailItem]()
     
     private var totalPriceForAllItems :Float = 0.0 {
         didSet {
@@ -35,6 +42,7 @@ class CartViewController: UIViewController {
             totalAmountLabel.text = String(totalPriceWithShipping)
         }
     }
+
     
     //MARK:- App Life Cycle
     override func viewDidLoad() {
@@ -49,7 +57,7 @@ class CartViewController: UIViewController {
     
     //MARK:- Helper Functions
     
-    private func getTotalPriceForAllItems(items:[Item]){
+    private func getTotalPriceForAllItems(items:[OrderDetailItem]){
         var totalPrice:Float = 0.0
         for item in items {
             totalPrice += item.totalPrice
@@ -104,7 +112,7 @@ extension CartViewController : UITableViewDataSource {
 
     //MARK:- cartActions Delegate
 extension CartViewController : CartActionsDelegate {
-    func deleteItem(item: Item) {
+    func deleteItem(item: OrderDetailItem) {
         cartItems.remove(object: item)
         resetCart()
         itemsTV.reloadData()

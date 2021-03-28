@@ -16,8 +16,8 @@ class OrderDetailCVCell: UICollectionViewCell {
         // Initialization code
     }
 
-    func configureCell(with image:UIImage){
-        imageView.image = image
+    func configureCell(with item:OrderDetailItem){
+        imageView.image = UIImage(named: item.imageName!)
     }
     
     static func nib() -> UINib {

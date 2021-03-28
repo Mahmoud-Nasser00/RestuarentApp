@@ -102,27 +102,19 @@ class OrderDetailViewController: UIViewController {
     }
     
     @IBAction func minusBtnTapped(_ sender:UIButton){
-        
         let qty = Int(orderQuantity.text!)!
         if qty > 0 {
             orderQuantity.text = String(qty - 1)
             count = Int(orderQuantity.text!)!
         }
-        
-        
         viewModel.changeItemCount(count: count)
-        
-        
     }
     
     @IBAction func plusBtnTapped(_ sender:UIButton){
         let qty = Int(orderQuantity.text!)!
         orderQuantity.text = String(qty + 1)
         count = Int(orderQuantity.text!)!
-        
         viewModel.changeItemCount(count: count)
-        
-
     }
     
     @IBAction func addOrderBtnTapped(_ sender:UIButton){
@@ -136,7 +128,7 @@ class OrderDetailViewController: UIViewController {
         } else {
             if let cartVC = storyboard?.instantiateViewController(withIdentifier: Constants.StoryboardId.CartVC) as? CartViewController {
                 orderedItem.count = count
-                cartVC.cartItems = [orderedItem]
+                cartVC.cartItems = [viewModel.orderedItem]
                 navigationController?.pushViewController(cartVC, animated: true)
             }
         }
@@ -170,13 +162,10 @@ extension OrderDetailViewController : UICollectionViewDelegate {
         let currentPage:Int = indexPath.item
         switch currentPage {
         case 0:
-//            orderedItem.size = .large
             viewModel.changeItemSize(size: .large)
         case 1:
-//            orderedItem.size = .large
             viewModel.changeItemSize(size: .large)
         case 2:
-//            orderedItem.size = .small
             viewModel.changeItemSize(size: .large)
         default:break
         }
@@ -191,7 +180,7 @@ extension OrderDetailViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellId.cell, for: indexPath) as? OrderDetailCVCell {
-            cell.configureCell(with: UIImage(named: "burger-png-33925 1")!)
+            cell.configureCell(with: viewModel.orderedItem)
             return cell
         }
         return UICollectionViewCell()

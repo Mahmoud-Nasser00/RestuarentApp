@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OrderDetailItem {
+struct OrderDetailItem :Equatable {
     
     var itemName:String
     var itemCategory:String
@@ -15,5 +15,9 @@ struct OrderDetailItem {
     var size: Size? = .large
     var count:Int? = 0
     var imageName:String? = nil
+    
+    var totalPrice : Float {
+        return price * Float(count!)
+    }
     
 }
