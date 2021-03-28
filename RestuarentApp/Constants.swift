@@ -22,6 +22,7 @@ class Constants {
         static let orderDetailCVCell = "OrderDetailCVCell"
         static let favouriteCell = "FavouriteCell"
         static let cartCell = "CartCell"
+        static let cell = "CVCell"
     }
     
 }

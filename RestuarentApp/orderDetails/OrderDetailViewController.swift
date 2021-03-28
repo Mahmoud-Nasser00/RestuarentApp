@@ -12,6 +12,7 @@ class OrderDetailViewController: UIViewController {
     
     //MARK:- IBoutlets
     @IBOutlet weak var segmentControl:PinterestSegment!
+    @IBOutlet weak var sizesCV:UICollectionView!
     @IBOutlet weak var orderView:UIView!
     @IBOutlet weak var orderDetailSV:UIStackView!
     @IBOutlet weak var itemName:UILabel!
@@ -50,10 +51,26 @@ class OrderDetailViewController: UIViewController {
     var orderedItem :Item!
     var count:Int!
     
+    private lazy var viewModel = OrderDetailViewModel(item: orderedItem)
+    
     //MARK:- App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        sizesCV.register(OrderDetailCVCell.nib(), forCellWithReuseIdentifier: Constants.CellId.cell)
+        
+        sizesCV.delegate = self
+        sizesCV.dataSource = self
+        sizesCV.backgroundColor = .clear
+        
+        
+        setSegmentControl()
+        
+        populateData(item: orderedItem)
+    }
+
+    //MARK:- UIFunctions
+    private func setSegmentControl(){
         segmentControl.titles = ["Active Orders", "fast Orders"]
         style.indicatorColor = #colorLiteral(red: 1, green: 0.5937251379, blue: 0.107067319, alpha: 0.1801954863)
         style.titleMargin = 20
@@ -64,15 +81,13 @@ class OrderDetailViewController: UIViewController {
         style.selectedTitleColor = UIColor.black
         
         segmentControl.style = style
-        
-        populateData(item: orderedItem)
     }
-
+    
     //MARK:- Functions
     
     private func populateData(item:Item){
-        itemName.text = item.itemName
-        categoryName.text = item.itemCategory
+        itemName.text = viewModel.orderedItem.itemName
+        categoryName.text = viewModel.orderedItem.itemCategory
     }
     
     //MARK:- IBActions
@@ -82,17 +97,21 @@ class OrderDetailViewController: UIViewController {
     
     @IBAction func cartBtnTapped(_ sender: UIButton) {
         if let cartVC = storyboard?.instantiateViewController(withIdentifier: Constants.StoryboardId.CartVC) as? CartViewController {
-           
             navigationController?.pushViewController(cartVC, animated: true)
         }
     }
     
     @IBAction func minusBtnTapped(_ sender:UIButton){
+        
         let qty = Int(orderQuantity.text!)!
         if qty > 0 {
             orderQuantity.text = String(qty - 1)
             count = Int(orderQuantity.text!)!
         }
+        
+        
+        viewModel.changeItemCount(count: count)
+        
         
     }
     
@@ -100,6 +119,9 @@ class OrderDetailViewController: UIViewController {
         let qty = Int(orderQuantity.text!)!
         orderQuantity.text = String(qty + 1)
         count = Int(orderQuantity.text!)!
+        
+        viewModel.changeItemCount(count: count)
+        
 
     }
     
@@ -132,3 +154,64 @@ class OrderDetailViewController: UIViewController {
 
 }
 
+ // MARK:- Extensions
+extension OrderDetailViewController : UICollectionViewDelegate {
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let midX:CGFloat = scrollView.bounds.midX
+        let midY:CGFloat = scrollView.bounds.midY
+        let point:CGPoint = CGPoint(x:midX, y:midY)
+        
+        guard let indexPath:IndexPath = sizesCV.indexPathForItem(at: point)
+        else {
+            return
+        }
+        
+        let currentPage:Int = indexPath.item
+        switch currentPage {
+        case 0:
+//            orderedItem.size = .large
+            viewModel.changeItemSize(size: .large)
+        case 1:
+//            orderedItem.size = .large
+            viewModel.changeItemSize(size: .large)
+        case 2:
+//            orderedItem.size = .small
+            viewModel.changeItemSize(size: .large)
+        default:break
+        }
+    }
+    
+}
+
+extension OrderDetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellId.cell, for: indexPath) as? OrderDetailCVCell {
+            cell.configureCell(with: UIImage(named: "burger-png-33925 1")!)
+            return cell
+        }
+        return UICollectionViewCell()
+    }
+    
+    
+}
+
+extension OrderDetailViewController :UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size = collectionView.frame.size
+        return CGSize(width: size.width, height: size.height)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+}
