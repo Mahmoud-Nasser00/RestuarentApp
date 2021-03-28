@@ -30,6 +30,7 @@ public class ItemsViewModel {
         dataAccess.getAllSaladItems()
     }
     
+    //TODO:- Fix adding and deleting item to wish List bug
     func addDeleteFavouriteItem( item:inout Item){
 
         let isItemExists = favouriteItems.contains {
